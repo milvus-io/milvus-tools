@@ -79,6 +79,8 @@ class ReadMilvusMeta():
         try:
             self.cursor.execute(sql)
             results = self.cursor.fetchall()
+            if not results:
+                raise Exception("The source collection: {}/ partition_tag: {} does not exists.".format(collection_name, partition_tag))
             self.logger.debug("Get partition name: {}".format(results))
             return results[0][0]
         except Exception as e:
