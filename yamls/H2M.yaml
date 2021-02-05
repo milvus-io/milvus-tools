@@ -1,0 +1,16 @@
+H2M:
+  milvus-version: 0.10.5
+  # Just config data_path or data_dir, while the other one is None.
+  data_path:
+    - /Users/mialee/Desktop/binary_data_noid.h5
+  data_dir:
+  dest_host: '127.0.0.1'
+  dest_port: 19530
+  mode: 'overwrite'        # 'skip/append/overwrite'
+  dest_collection_name: 'test_bina'
+  dest_partition_name: ''
+  collection_parameter:
+    dimension: 512
+    index_file_size: 1024
+    metric_type: 'HAMMING'
+

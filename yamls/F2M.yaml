@@ -1,0 +1,12 @@
+F2M:
+  milvus_version: 0.10.5
+  data_path: '/home/data/faiss1.index'
+  dest_host: '127.0.0.1'
+  dest_port: 19530
+  mode: 'append'
+  dest_collection_name: 'test01'
+  dest_partition_name: ''
+  collection_parameter:
+    dimension: 256
+    index_file_size: 1024
+    metric_type: 'L2'
