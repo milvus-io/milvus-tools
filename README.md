@@ -58,7 +58,7 @@ Export one fails index file to Miluvs in specified collection or partition.
 - Download the example yaml
 
 ```shell
-$ wget 
+$ wget https://raw.githubusercontent.com/milvus-io/milvus-tools/main/yamls/F2M.yaml
 ```
 
 - Config the yaml
@@ -116,7 +116,7 @@ Export one or more HDF5 file to Miluvs in specified collection or partition.
 - Download the yaml
 
 ```shell
-$ wget
+$ wget https://raw.githubusercontent.com/milvus-io/milvus-tools/main/yamls/H2M.yaml
 ```
 
 - Config the yaml
@@ -188,7 +188,7 @@ Copy a collection of source_milvus or multiple partitions of a collection into t
 - Download the yaml
 
 ```bash
-$ wget
+$ wget https://raw.githubusercontent.com/milvus-io/milvus-tools/main/yamls/M2M.yaml
 ```
 
 - Config the yaml
@@ -259,7 +259,7 @@ Export a Milvus collection or multiple partitions of a collection to a local HDF
 - Download the yaml
 
 ```bash
-$ wget 
+$ wget https://raw.githubusercontent.com/milvus-io/milvus-tools/main/yamls/M2H.yaml
 ```
 
 - Config the yaml
