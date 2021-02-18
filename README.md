@@ -112,7 +112,7 @@ $ milvusdm --yaml F2M.yaml
 ### HDF5 to Milvus
 
 Export one or more HDF5 file to Miluvs in specified collection or partition.
->We provide the HDF5 examples of [float vectors](examples/float_example.h5) and [binary vectors](examples/byte_example.h5) and their corresponding ids.
+>We provide the HDF5 examples of [float vectors](examples/float_example.h5)(dim-100) and [binary vectors](examples/byte_example.h5)(dim-512) and their corresponding ids.
 
 - Download the yaml
 
