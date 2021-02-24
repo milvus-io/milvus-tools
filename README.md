@@ -1,7 +1,7 @@
 # Milvus Data Migration Tool
 ## Overview
 
-Milvusdm (Milvus Data Migration) is a data migration tool for [Milvus](https://milvus.io/) that supports importing Faiss and HDF5 data files into Milvus, migrating data between the same version of Milvus, and it also supports batch backup of Milvus data to local files. Using milvusdm can help developers improve usage efficiency, reduce operation and maintenance costs.
+Milvusdm (Milvus Data Migration) is a data migration tool for [Milvus](https://milvus.io/) that supports importing Faiss and HDF5 data files into Milvus, migrating data between Milvus (currently only 0.10.x is supported), and it also supports batch backup of Milvus data to local files. Using milvusdm can help developers improve usage efficiency, reduce operation and maintenance costs.
 
 
 ## Getting started
@@ -318,7 +318,29 @@ M2H:
 $ milvusdm --yaml M2H.yaml
 ```
 
+## Code Structure
 
+If you would like to contribute code to this project, you can find out more about our code structure:
+
+![](./pic/milvusdm.png)
+
+- pymilvusdm
+  - core
+    - milvus_client.py, the function about Milvus
+    - read_data.py, read local data files in HDF5 format (if you need to read files in other formats, you can write the code here)
+    - read_faiss_data.py, read the Faiss data file
+    - read_milvus_data.py, read the Milvus data file
+    - read_milvus_meta.py, read Milvus' meta data
+    - data_to_milvus.py, create collections or partitions based on the parameters of the yaml file and import the vectors and ids into Milvus.
+    - save_data.py, save the data as a file in HDF5 format
+    - write_logs.py, write debug/info/error logs with an operation
+  - faiss_to_milvus.py, import of Faiss file data into Milvus
+  - hdf5_to_milvus.py, import file data in HDF5 format into Milvus
+  - milvus_to_milvus.py，copy data from Milvus to another Milvus
+  - milvus_to_hdf5.py, export Milvus data to HDF5 format files
+  - main.py, read yaml files and do related tasks.
+  - setting.py, relevant configuration parameters when executing the code
+- setup.py, package and upload pymilvusdm to Pypi
 
 ## Todo
 
