@@ -51,7 +51,7 @@ $ pip3 install pymilvusdm
 ## How to use
 
 ### Faiss to Milvus
-Export one fails index file to Miluvs in specified collection or partition.
+Export one Faiss index file to Milvus in specified collection or partition.
 
 > In the current version, only flat and ivf_flat indexes for floating data are supported.
 
@@ -111,7 +111,7 @@ $ milvusdm --yaml F2M.yaml
 
 ### HDF5 to Milvus
 
-Export one or more HDF5 file to Miluvs in specified collection or partition.
+Export one or more HDF5 file to Milvus in specified collection or partition.
 >We provide the HDF5 examples of [float vectors](examples/float_example.h5)(dim-100) and [binary vectors](examples/byte_example.h5)(dim-512) and their corresponding ids.
 
 - Download the yaml
