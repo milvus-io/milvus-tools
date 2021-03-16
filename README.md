@@ -8,8 +8,7 @@ Milvusdm (Milvus Data Migration) is an open-source tool designed specifically fo
 - Milvus to Milvus: Migrates data from a source Milvus to the target Milvus.
 - Milvus to HDF5: Saves the data in Milvus as HDF5 files.
 
-![](./pic/main_func.png)
-
+<img src="./pic/main_func.png" width=60% height=60% align="center"> 
 
 ## Getting started
 ### Prerequisites
