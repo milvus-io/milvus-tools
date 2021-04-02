@@ -1,0 +1,31 @@
+# IDE
+## Pycharm IDE
+/.idea
+
+# Python files
+*.pyc
+dist
+docs/build/
+*.egg
+*.egg-info
+**/__pycache__/
+.pytest*/
+/build/
+.remember
+venv/
+
+# Env
+.env
+
+# Local Temp
+temp/
+*.swp
+assets/
+TODO
+*/.DS_Store
+
+# GitHub
+.coverage
+htmlcov/
+debug/
+.codecov.yml
