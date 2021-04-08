@@ -99,7 +99,7 @@ class ReadMilvusMeta():
             sys.exit(1)
 
     def get_collection_segments_rows(self, table_id):
-        sql = "select segment_id, row_count from " + MILVUS_TBF + " where table_id='" + table_id + "' and file_type=1;"
+        sql = "select segment_id, row_count from " + MILVUS_TBF + " where table_id='" + table_id + "' and file_type=1 or table_id='" + table_id + "' and file_type=7;"
         try:
             self.cursor.execute(sql)
             results = self.cursor.fetchall()
