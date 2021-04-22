@@ -9,15 +9,13 @@ class SaveData:
         self.logger = logger
         self.data_dir = data_dir
         self.timestamp = timestamp
-        self.dirs = self.data_dir + '/' + timestamp
-        if not os.path.exists(self.dirs):
-            os.makedirs(self.dirs)
-        if not os.path.exists(self.dirs + '/yamls'):
-            os.makedirs(self.dirs + '/yamls')
-        
+        self.dirs = os.path.join(self.data_dir, timestamp)
 
     def save_hdf5_data(self, collection_name, partition_tag, vectors, ids):
-        hdf5_filename = self.dirs + '/' + collection_name + '_' + str(partition_tag) + '.h5'
+        hdf5_filename = os.path.join(self.dirs, collection_name, f"{partition_tag}.h5")
+        hdf5_foldername = os.path.dirname(hdf5_filename)
+        if not os.path.exists(hdf5_foldername):
+            os.makedirs(hdf5_foldername)
         try:
             f = h5py.File(hdf5_filename, 'w')
             if type(vectors[0]) == type(b'a'):
@@ -51,10 +49,18 @@ class SaveData:
                     'collection_parameter': collection_parameter,
                 }
             }
-            yaml_filename = self.dirs + '/yamls/' + collection_name + '_' + str(partition_tag) + '.yaml'
-            with open(yaml_filename, 'w') as f:
-                f.write(yaml.dump(hdf2_ymal))
-            self.logger.debug('Successfully saved yamls of collection: {}/partition: {} data in {}!'.format(collection_name, partition_tag, yaml_filename))
+            yaml_filename = os.path.join(self.dirs, "yamls", collection_name, f"{partition_tag}.yaml")
+            yaml_foldername = os.path.dirname(yaml_filename)
+            if not os.path.exists(yaml_foldername):
+                os.makedirs(yaml_foldername)
+
+            with open(yaml_filename, "w") as f:
+                f.write(yaml.dump(hdf2_yaml))
+            self.logger.debug(
+                "Successfully saved yamls of collection: {}/partition: {} data in {}!".format(
+                    collection_name, partition_tag, yaml_filename
+                )
+            )
         except Exception as e:
             self.logger.error("Error with {}".format(e))
             sys.exit(1)
