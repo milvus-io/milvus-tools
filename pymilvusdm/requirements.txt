@@ -1,3 +1,6 @@
 tqdm
 h5py
 pyyaml
+
+pymilvus
+pymysql
