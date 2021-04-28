@@ -57,10 +57,10 @@ class DataToMilvus:
             if _continue:
                 for i in range(math.ceil(len(vectors) / self.batch_size)):
                     _ids = None
-                    if ids:
+                    if ids.size != 0:
                         _ids = ids[i * self.batch_size: (i + 1) * self.batch_size]
                     vector = vectors[i * self.batch_size: (i + 1) * self.batch_size]
-                    status, ids_ = self.client.insert(collection, vector, _ids, partition)
+                    status, ids_ = self.client.insert(collection, vector.tolist(), _ids.tolist(), partition)
                     return_ids = return_ids + ids_
 
                 if len(vectors) == len(return_ids):
@@ -78,6 +78,8 @@ class DataToMilvus:
                 self.logger.info(
                     'The collection or partition exist,skip this collection: {}/partition: {} '.format(collection,
                                                                                                        partition))
+            del vectors
+            del vector
             return return_ids
         except Exception as e:
             self.logger.error(e)

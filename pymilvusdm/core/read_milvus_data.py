@@ -25,7 +25,8 @@ class ReadMilvusDB:
         rv_file = os.path.join(collection_path, segment_id, segment_id + ".rv")
         self.logger.debug("Reading float data in local file: {}".format(rv_file))
         vectors = np.fromfile(rv_file, dtype=np.float32)
-        vectors = vectors[2:].reshape(rows, dim).tolist()
+        # vectors = vectors[2:].reshape(rows, dim).tolist()
+        vectors = vectors[2:].reshape(rows, dim)
         return vectors
 
     def read_rv_binary_file(self, collection_path, segment_id, rows, dim):
@@ -44,7 +45,8 @@ class ReadMilvusDB:
             vectors = self.read_rv_binary_file(collection_path, segment_id, rows, dim)
         ids = self.read_uid_file(collection_path, segment_id)
         if len(del_ids[2:]) != 0:
-            vectors = np.delete(vectors, del_ids[2:], axis=0).tolist()
+            # vectors = np.delete(vectors, del_ids[2:], axis=0).tolist()
+            vectors = np.delete(vectors, del_ids[2:], axis=0)
             ids = np.delete(ids, del_ids[2:], axis=0)
             self.logger.debug("The Segment: {} has deleted data, total num: {}.".format(segment_id, len(delids[2:])))
 
@@ -54,14 +56,27 @@ class ReadMilvusDB:
         dim, types = milvus_meta.get_collection_dim_type(table_id)
         segment_list, row_list = milvus_meta.get_collection_segments_rows(table_id)
 
-        total_vectors = []
-        total_ids = []
+        # total_vectors = []
+        # total_ids = []
+        # total_rows = 0
+        # for segment_id, rows in zip(segment_list, row_list):
+        #     total_rows += rows
+        #     vectors, ids = self.get_segment_data(collection_path, segment_id, dim, rows, types)
+        #     total_vectors += vectors
+        #     # total_ids += ids.tolist()
+        #     total_ids += ids
         total_rows = 0
         for segment_id, rows in zip(segment_list, row_list):
-            total_rows += rows
             vectors, ids = self.get_segment_data(collection_path, segment_id, dim, rows, types)
-            total_vectors += vectors
-            total_ids += ids.tolist()
+            if total_rows==0:
+                total_vectors = vectors
+                total_ids = ids
+            else:
+                total_ids = np.append(total_ids, ids)
+                total_vectors = np.append(total_vectors, vectors, axis=0)
+            total_rows += rows
+            del vectors
+            del ids
         return total_vectors, total_ids, total_rows
 
     def get_partition_data(self, milvus_meta, collection_name, partition_tag):
