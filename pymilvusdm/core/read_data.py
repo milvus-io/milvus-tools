@@ -29,7 +29,7 @@ class ReadData:
                 # print(f['embeddings'][:].dtype == 'uint8')
                 vectors = self.format(f['embeddings'][:])
                 return vectors, f['ids'][:]
-            return f['embeddings'][:], None
+            return f['embeddings'][:], np.array([])
         except Exception as e:
             print(e)
             return "Error with {}".format(e), 400
