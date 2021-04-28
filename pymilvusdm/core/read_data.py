@@ -13,8 +13,8 @@ class ReadData:
     def format(self, vecs):
         if vecs.dtype == 'uint8':
             vecs = self.unit2byte(vecs)
-        else:
-            vecs = vecs.tolist()
+        # else:
+        #     vecs = vecs.tolist()
         return vecs
 
     def read_hdf5_data(self):
@@ -28,8 +28,8 @@ class ReadData:
                     raise Exception("Please ensure that the length of 'ids' equals that of the 'embeddings'!")
                 # print(f['embeddings'][:].dtype == 'uint8')
                 vectors = self.format(f['embeddings'][:])
-                return vectors, f['ids'][:].tolist()
-            return f['embeddings'][:].tolist(), None
+                return vectors, f['ids'][:]
+            return f['embeddings'][:], np.array([])
         except Exception as e:
             print(e)
             return "Error with {}".format(e), 400

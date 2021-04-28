@@ -139,10 +139,10 @@ class ReadFaissData:
             self.logger.debug("faiss data header: {}".format(header))
             if header in ("IxFI", "IxF2", "IxFl"):
                 ids, vectors = self.read_flat_data(f)
-                return ids.tolist(), vectors.tolist()
+                return ids, vectors
             elif header == "IwFl":
                 ids, vectors = self.read_ivf_flat_data(f)
-                return ids.tolist(), vectors.tolist()
+                return ids, vectors
             else:
                 raise Exception('pymilvusdm only supports faiss flat and ivf_flat index files')
         except Exception as e:

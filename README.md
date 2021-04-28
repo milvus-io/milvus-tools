@@ -28,7 +28,7 @@ Milvusdm (Milvus Data Migration) is a data migration tool for [Milvus](https://m
 Add the following two lines to `~/.bashrc` file:
 
 ```bash
-export MILVUSDM_PATH='/home/$user/milvusd'
+export MILVUSDM_PATH='/home/$user/milvusdm'
 export LOGS_NUM=0
 ```
 
@@ -352,8 +352,3 @@ If you would like to contribute code to this project, you can find out more abou
   - [ ] Support for merging multiple collections or partitions in source_milvus into one collection in dest_milvus.
 - [ ] Milvud Dump
 - [ ] Milvus Restore
-
-
-
-
-
