@@ -29,7 +29,7 @@ class MilvusToMilvus():
     def transform_milvus_data(self, collection_name, partition_tags):
         try:
             if not self.milvus_meta.has_collection_meta(collection_name):
-                raise Exception("The sour collection: {} does not exists.".format(collection_name))
+                raise Exception("The source collection: {} does not exists.".format(collection_name))
 
             if not partition_tags:
                 partition_tags = [None]
