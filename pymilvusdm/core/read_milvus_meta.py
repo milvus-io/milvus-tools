@@ -37,6 +37,7 @@ class ReadMilvusMeta():
             self.cursor.execute(sql)
             results = self.cursor.fetchall()
             if not results:
+                self.logger.debug("Has collection {} with sql: {}".format(collection_name, sql))
                 return None
             return results
         except Exception as e:
@@ -88,7 +89,7 @@ class ReadMilvusMeta():
             sys.exit(1)
 
     def get_collection_dim_type(self, table_id):
-        sql = "select dimension, engine_type from " + MILVUS_TB + " where table_id='" + table_id + "';"
+        sql = "select dimension, metric_type from " + MILVUS_TB + " where table_id='" + table_id + "';"
         try:
             self.cursor.execute(sql)
             results = self.cursor.fetchall()

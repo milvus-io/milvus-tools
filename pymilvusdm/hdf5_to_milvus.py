@@ -34,11 +34,11 @@ class HDF5toMilvus():
             if self.mode in ('append', 'overwrite', 'skip'):
                 embeddings, ids = self.file.read_hdf5_data()
                 insert_milvus = DataToMilvus(self.logger, self.client)
+                self.logger.debug('Read the HDF5 file: {}, the dimension:{} and rows:{}.'.format(self.filepath, len(embeddings[0]), len(ids)))
                 ids = insert_milvus.insert_data(embeddings, self.c_name, self.c_param, self.mode, ids,
                                                 self.p_name)
                 self.generate_ids_file(ids)
             else:
                 self.logger.error('error mode type, only support [skip, append, overwrite]')
         except Exception as e:
-            print(e)
             return "Error with {}".format(e), 400
