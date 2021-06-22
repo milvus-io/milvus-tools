@@ -45,7 +45,7 @@ $ source ~/.bashrc
 - Install milvusdm by pip
 
 ```shell
-$ pip3 install pymilvusdm
+$ pip3 install pymilvusdm==1.0
 ```
 
 ## How to use
