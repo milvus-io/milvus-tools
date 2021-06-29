@@ -47,7 +47,7 @@ $ source ~/.bashrc
 ```shell
 $ pip3 install pymilvusdm==2.0
 ```
-> The pymilvusdm2.0 is used to migrate data from Milvus1.x to Milvus2.x.
+> The pymilvusdm2.0 is used to migrate data **from Milvus(0.10.x or 1.x) to Milvus2.x**.
 
 ## How to use
 
