@@ -20,7 +20,6 @@ class MilvusToMilvus():
         for partition_tag in pbar:
             if self.mode=='skip':
                 self.milvus_insert.if_create_collection(collection_name, partition_tag)
-                print("-----if_create_collection")
             r_vectors, r_ids, r_rows = self.milvusdb.read_milvus_file(self.milvus_meta, collection_name, partition_tag)
             if r_rows == len(r_vectors) == len(r_ids)==0:
                 self.logger.info('The collection: {}/partition: {} has no data'.format(collection_name, partition_tag))
