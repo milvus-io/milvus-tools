@@ -45,9 +45,9 @@ class DataToMilvus:
 
     def insert_data(self, vectors, collection, collection_param_1, mode, ids=None, partition=None):
         try:
-            metric_type = self.client.get_metric_type(collection_param_1)
+            data_type = self.client.get_data_type(collection_param_1)
             collection_param = {'collection_name': collection, 'dimension': collection_param_1['dimension'],
-                                'index_file_size': collection_param_1['index_file_size'], 'metric_type': metric_type}
+                                'index_file_size': collection_param_1['index_file_size'], 'data_type': data_type}
             has_collection = self.client.has_collection(collection)
             if partition:
                 _continue = self.creat_assigned_partition(collection, collection_param, mode, partition, has_collection)
