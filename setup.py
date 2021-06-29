@@ -8,7 +8,7 @@ setup(
     version="2.0",
     author="ZILLIZ",
     packages=find_packages(),
-    url='https://github.com/zilliz-bootcamp/milvus_data_migration',
+    url='https://github.com/milvus-io/milvus-tools',
     license="Apache-2.0",
     description="Milvus data migration tool",
     long_description=README,
