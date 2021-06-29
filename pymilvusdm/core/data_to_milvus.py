@@ -10,6 +10,19 @@ class DataToMilvus:
         self.logger = logger
         self.batch_size = 100000
 
+    def if_create_collection(self, collection_name, partition_tag):
+        try:
+            if self.client.has_collection(collection_name):
+                if not partition_tag:
+                    self.logger.info("There collection:{} exists, and skip it.".format(collection_name))
+                    sys.exit(1)
+                elif partition_tag and self.client.has_partition(collection_name, partition_tag):
+                    self.logger.info("There collection:{} partition:{} exists, and skip it.".format(collection_name, partition_tag))
+                    sys.exit(1)
+        except Exception as e:
+            self.logger.error('Error with: {}'.format(e))
+            sys.exit(1)
+
     def creat_none_partition(self, collection, collection_param, mode, has_collection):
         _continue = True
         if not has_collection:
@@ -78,7 +91,7 @@ class DataToMilvus:
                     #                                                                               partition))
             else:
                 self.logger.info(
-                    'The collection or partition exist,skip this collection: {}/partition: {} '.format(collection,
+                    'The collection or partition exist, skip this collection: {}/partition: {} '.format(collection,
                                                                                                        partition))
             del vectors
             del vector
