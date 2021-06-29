@@ -1,8 +1,8 @@
 H2M:
-  milvus-version: 0.10.5
+  milvus-version: 1.x
   # Just config data_path or data_dir, while the other one is None.
   data_path:
-    - /Users/mialee/Desktop/binary_data_noid.h5
+    - /Users/data/example/byte_example.h5
   data_dir:
   dest_host: '127.0.0.1'
   dest_port: 19530

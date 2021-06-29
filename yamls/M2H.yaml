@@ -1,5 +1,5 @@
 M2H:
-  milvus_version: 0.10.5
+  milvus_version: 1.x
   source_milvus_path: '/home/user/milvus'
   mysql_parameter:
     host: '127.0.0.1'
