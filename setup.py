@@ -5,7 +5,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / 'README.md').read_text()
 setup(
     name="pymilvusdm",
-    version="0.1.1-2",
+    version="1.0",
     author="ZILLIZ",
     packages=find_packages(),
     url='https://github.com/milvus-io/milvus-tools',
