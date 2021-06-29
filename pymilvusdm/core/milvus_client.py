@@ -13,7 +13,7 @@ class MilvusIndex:
         self.host = milvus_host
         self.port = milvus_port
         self.collection = None
-        connections.connect(self.host, self.port)
+        connections.connect(host=self.host, port=self.port)
 
     def set_collection(self, collection_name):
         try:
@@ -78,10 +78,9 @@ class MilvusIndex:
 
     def insert(self, collection_name, vectors, ids, partition_name=None):
         try:
-            self.set_collection(collection)
+            self.set_collection(collection_name)
             data = [ids, vectors]
             mr = self.collection.insert(data=data, partition_name=partition_name)
-            # return status, ids
             return "Insert success!", mr.primary_keys
         except Exception as e:
             self.logger.error(e)
