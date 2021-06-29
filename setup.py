@@ -5,10 +5,10 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / 'README.md').read_text()
 setup(
     name="pymilvusdm",
-    version="0.1.1-2",
+    version="1.0",
     author="ZILLIZ",
     packages=find_packages(),
-    url='https://github.com/zilliz-bootcamp/milvus_data_migration',
+    url='https://github.com/milvus-io/milvus-tools',
     license="Apache-2.0",
     description="Milvus data migration tool",
     long_description=README,

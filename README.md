@@ -17,7 +17,7 @@ Milvusdm (Milvus Data Migration) is a data migration tool for [Milvus](https://m
 
 | Software                     | Version                        |
 | :--------------------------- | :----------------------------- |
-| [Milvus](https://milvus.io/) | 0.10.x                         |
+| [Milvus](https://milvus.io/) | 0.10.x or 1.x                        |
 | Python3                      | 3.7 or higher                  |
 | pip3                         | Corresponds to python version. |
 
@@ -47,6 +47,7 @@ $ source ~/.bashrc
 ```shell
 $ pip3 install pymilvusdm==1.0
 ```
+> The pymilvusdm1.0 is used to migrate data from milvus(0.10.x or 1.0) to milvus(0.10.x or 1.0).
 
 ## How to use
 
