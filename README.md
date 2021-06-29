@@ -17,7 +17,7 @@ Milvusdm (Milvus Data Migration) is a data migration tool for [Milvus](https://m
 
 | Software                     | Version                        |
 | :--------------------------- | :----------------------------- |
-| [Milvus](https://milvus.io/) | 0.10.x                         |
+| [Milvus](https://milvus.io/) | 0.10.x or 1.x or 2.x                          |
 | Python3                      | 3.7 or higher                  |
 | pip3                         | Corresponds to python version. |
 
@@ -45,8 +45,9 @@ $ source ~/.bashrc
 - Install milvusdm by pip
 
 ```shell
-$ pip3 install pymilvusdm==1.0
+$ pip3 install pymilvusdm==2.0
 ```
+> The pymilvusdm2.0 is used to migrate data from Milvus1.x to Milvus2.x.
 
 ## How to use
 
@@ -65,7 +66,7 @@ $ wget https://raw.githubusercontent.com/milvus-io/milvus-tools/main/yamls/F2M.y
 
 ```yaml
 F2M:
-  milvus_version: 0.10.5
+  milvus_version: 1.x
   data_path: '/home/data/faiss1.index'
   dest_host: '127.0.0.1'
   dest_port: 19530
@@ -124,7 +125,7 @@ $ wget https://raw.githubusercontent.com/milvus-io/milvus-tools/main/yamls/H2M.y
 
 ```yaml
 H2M:
-  milvus-version: 0.10.5
+  milvus-version: 1.x
   data_path:
     - /Users/zilliz/float_1.h5
     - /Users/zilliz/float_2.h5
@@ -144,7 +145,7 @@ or
 
 ```yaml
 H2M:
-  milvus_version: 0.10.5
+  milvus_version: 1.x
   data_path:
   data_dir: '/Users/zilliz/HDF5_data'
   dest_host: '127.0.0.1'
@@ -196,7 +197,7 @@ $ wget https://raw.githubusercontent.com/milvus-io/milvus-tools/main/yamls/M2M.y
 
 ```yaml
 M2M:
-  milvus_version: 0.10.5
+  milvus_version: 1.x
   source_milvus_path: '/home/user/milvus'
   mysql_parameter:
     host: '127.0.0.1'
@@ -217,7 +218,7 @@ Or
 
 ```yaml
 M2M:
-  milvus_version: 0.10.5
+  milvus_version: 1.x
   source_milvus_path: '/home/user/milvus'
   mysql_parameter:
   source_collection: # specify the collection named 'test'
@@ -267,7 +268,7 @@ $ wget https://raw.githubusercontent.com/milvus-io/milvus-tools/main/yamls/M2H.y
 
 ```yaml
 M2H:
-  milvus_version: 0.10.5
+  milvus_version: 1.x
   source_milvus_path: '/home/user/milvus'
   mysql_parameter:
     host: '127.0.0.1'
@@ -286,7 +287,7 @@ Or
 
 ```yaml
 M2H:
-  milvus_version: 0.10.5
+  milvus_version: 1.x
   source_milvus_path: '/home/user/milvus'
   mysql_parameter:
   source_collection: # specify the collection named 'test'
