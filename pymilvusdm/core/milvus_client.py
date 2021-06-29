@@ -1,148 +1,120 @@
-from milvus import *
+from pymilvus_orm import connections
+from pymilvus_orm.types import DataType
+from pymilvus_orm.schema import FieldSchema, CollectionSchema
+from pymilvus_orm.collection import Collection
+from pymilvus_orm import utility
 import time
 import sys
 
 
 class MilvusIndex:
     def __init__(self, logger, milvus_host='127.0.0.1', milvus_port=19530):
+        self.logger = logger
         self.host = milvus_host
         self.port = milvus_port
-        self.logger = logger
-        self.client = self.milvus_client()
+        self.collection = None
+        connections.connect(self.host, self.port)
 
-    def milvus_client(self):
+    def set_collection(self, collection_name):
         try:
-            milvus = Milvus(self.host, self.port)
-            return milvus
+            if self.has_collection(collection_name):
+                self.collection = Collection(name=collection_name)
+            else:
+                raise Exception("There has no collection named:{}".format(collection_name))
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error("Failed to load data to Milvus: {}".format(e))
             sys.exit(1)
 
     def has_collection(self, collection_name):
         try:
-            status, ok = self.client.has_collection(collection_name=collection_name)
-            if status.code == 0:
-                return ok
-            else:
-                raise Exception(status.message)
+            return utility.has_collection(collection_name)
         except Exception as e:
             self.logger.error(e)
             sys.exit(1)
 
     def create_collection(self, collection_name, collection_param):
         try:
-            # collection_param['collection_name'] = 'test1'
-            status = self.client.create_collection(collection_param)
-            if status.code != 0:
-                raise Exception(status.message)
-            self.logger.debug(status.message)
-            # return status
+            if not self.has_collection(collection_name):
+                field1 = FieldSchema(name="id", dtype=DataType.INT64, descrition="int64", is_primary=True, auto_id=False)
+                field2 = FieldSchema(name="embedding", dtype=collection_param['data_type'], descrition="float vector", dim=collection_param['dimension'], is_primary=False)
+                schema = CollectionSchema(fields=[field1,field2], description="collection description")
+                self.collection = Collection(name=collection_name, schema=schema)   
+                self.logger.debug("Create Milvus collection: {}".format(self.collection))
         except Exception as e:
             self.logger.error(e)
             sys.exit(1)
 
     def has_partition(self, collection_name, partition_name):
         try:
-            # collection_name = 'test123127'
-            status, ok = self.client.has_partition(collection_name, partition_name)
-            if status.code == 0:
-                return ok
-            else:
-                raise Exception(status.message)
+            self.set_collection(collection_name)
+            return self.collection.has_partition(partition_name)
         except Exception as e:
             self.logger.error(e)
             sys.exit(1)
 
     def creat_partition(self, collection_name, partition_name):
         try:
-            status = self.client.create_partition(collection_name, partition_name)
-            if status.code != 0:
-                raise Exception(status.message)
-            self.logger.debug(status.message)
-            # return status
+            self.set_collection(collection_name)
+            self.collection.create_partition(partition_name)
         except Exception as e:
             self.logger.error(e)
             sys.exit(1)
 
     def drop_collection(self, collection_name):
         try:
-            status = self.client.drop_collection(collection_name)
-            if status.code != 0:
-                raise Exception(status.message)
-            self.logger.debug(status.message)
-            # return status
+            self.set_collection(collection_name)
+            self.collection.drop()
         except Exception as e:
             self.logger.error(e)
             sys.exit(1)
 
     def drop_partition(self, collection_name, partition_name):
         try:
-            status = self.client.drop_partition(collection_name, partition_name)
-            if status.code != 0:
-                raise Exception(status.message)
-            self.logger.debug(status.message)
-            # return status
+            self.set_collection(collection_name)
+            self.collection.drop_partition(partition_name)
         except Exception as e:
             self.logger.error(e)
             sys.exit(1)
 
-    def insert(self, collection_name, vectors, ids=None, partition_name=None):
+    def insert(self, collection_name, vectors, ids, partition_name=None):
         try:
-            status, ids = self.client.insert(collection_name, vectors, ids=ids, partition_tag=partition_name)
+            self.set_collection(collection)
+            data = [ids, vectors]
+            mr = self.collection.insert(data=data, partition_name=partition_name)
             # return status, ids
-            if status.code == 0:
-                return status, ids
-            else:
-                raise Exception(status.message)
+            return "Insert success!", mr.primary_keys
         except Exception as e:
             self.logger.error(e)
             sys.exit(1)
 
     def count_entities(self, collection_name):
         try:
-            status, rows = self.client.count_entities(collection_name)
-            if status.code == 0:
-                return rows
-            else:
-                raise Exception(status.message)
+            self.set_collection(collection_name)
+            num = self.collection.num_entities
+            return num
         except Exception as e:
             self.logger.error(e)
             sys.exit(1)
 
-    def get_metric_type(self, collection_param):
+    def get_data_type(self, collection_param):
         try:
             if collection_param['metric_type'] == 'IP':
-                metric_type = MetricType.IP
+                data_type = DataType.FLOAT_VECTOR
             elif collection_param['metric_type'] == 'L2':
-                metric_type = MetricType.L2
+                data_type = DataType.FLOAT_VECTOR
             elif collection_param['metric_type'] == 'HAMMING':
-                metric_type = MetricType.HAMMING
+                data_type = DataType.BINARY_VECTOR
             elif collection_param['metric_type'] == 'JACCARD':
-                metric_type = MetricType.JACCARD
+                data_type = DataType.BINARY_VECTOR
             elif collection_param['metric_type'] == 'TANIMOTO':
-                metric_type = MetricType.TANIMOTO
+                data_type = DataType.BINARY_VECTOR
             elif collection_param['metric_type'] == 'SUBSTRUCTURE':
-                metric_type = MetricType.SUBSTRUCTURE
+                data_type = DataType.BINARY_VECTOR
             elif collection_param['metric_type'] == 'SUPERSTRUCTURE':
-                metric_type = MetricType.SUPERSTRUCTURE
+                data_type = DataType.BINARY_VECTOR
             else:
                 raise Exception("metric_type error: {}".format(collection_param['metric_type']))
-            return metric_type
+            return data_type
         except Exception as e:
             self.logger.error(e)
             sys.exit(1)
-
-    # def create_index(user_id, client):
-    #     param = {'nlist': 16384}
-    #     try:
-    #         status = client.create_index(user_id, IndexType.IVF_FLAT, param)
-    #         return status
-    #     except Exception as e:
-    #         print("Milvus create index error:", e)
-
-    # def milvus_search(client, vec, user_id):
-    #     try:
-    #         status, results = client.search(collection_name=user_id, query_records=vec, top_k=top_k, params=search_param)
-    #         return status, results
-    #     except Exception as e:
-    #         print("Milvus search error:", e)
