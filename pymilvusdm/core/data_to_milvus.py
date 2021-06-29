@@ -63,7 +63,7 @@ class DataToMilvus:
                     if not isinstance(vector, list):
                         vector = vector.tolist()
                     status, ids_ = self.client.insert(collection, vector, _ids.tolist(), partition)
-                    return_ids = return_ids + ids_
+                    return_ids += ids_
 
                 if len(vectors) == len(return_ids):
                     self.logger.debug(
