@@ -5,7 +5,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / 'README.md').read_text()
 setup(
     name="pymilvusdm",
-    version="1.0",
+    version="2.0",
     author="ZILLIZ",
     packages=find_packages(),
     url='https://github.com/milvus-io/milvus-tools',
@@ -14,12 +14,12 @@ setup(
     long_description=README,
     long_description_content_type='text/markdown',
     install_requires=[
-        'PyYAML>=5.3.1',
-        'uuid>=1.3.0',
-        'h5py>=3.1.0',
+        'PyYAML',
+        'uuid',
+        'h5py',
         'pymysql',
-        'tqdm>=4.56.0',
-        'pymilvus'
+        'tqdm',
+        'pymilvus_orm==2.0.0rc1'
     ],
     classifiers=[
         'Programming Language :: Python :: 3.8',

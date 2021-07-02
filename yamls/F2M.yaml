@@ -1,5 +1,5 @@
 F2M:
-  milvus_version: 0.10.5
+  milvus_version: 1.x
   data_path: '/home/data/faiss1.index'
   dest_host: '127.0.0.1'
   dest_port: 19530
