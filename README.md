@@ -53,7 +53,7 @@ $ pip3 install pymilvusdm==2.0
 ## How to use
 
 ### Faiss to Milvus
-Export one Faiss index file to Milvus in specified collection or partition.
+Export one Faiss index file to Milvus in a specified collection or partition.
 
 > In the current version, only flat and ivf_flat indexes for floating data are supported.
 
@@ -95,13 +95,13 @@ F2M:
 | -------------------- | ----------------------------------------------- | ------------------------------------------------------------ |
 | F2M                  | Task: Export data in HDF5  to Milvus.           |                                                              |
 | milvus_version       | Version of Milvus.                              | 0.10.5                                                       |
-| data_path            | The path of fairs data                          | '/home/user/data/faiss.index'                                |
-| dest_host            | Host of Milvus.                                 | '127.0.0.1'                                                  |
-| dest_port            | Port of Milvus.                                 | 19530                                                        |
-| mode                 | The mode for importing data to Milvus.          | 'append'                                                     |
-| dest_collection_name | Collection to be imported fairs data.           | 'test'                                                       |
-| dest_partition_name  | Partition to be imported fairs data. (Optional) | 'partition'                                                  |
-| collection_parameter | Parameters used to create the collection.       | dimension: 512<br/>index_file_size: 1024<br/>metric_type: 'HAMMING' |
+| data_path            | Path to the data in Faiss.                      | '/home/user/data/faiss.index'                                |
+| dest_host            | Milvus server address                           | '127.0.0.1'                                                  |
+| dest_port            | Milvus server port.                             | 19530                                                        |
+| mode                 | Mode of migration.                              | 'append'                                                     |
+| dest_collection_name | Name of the collection to import data to.       | 'test'                                                       |
+| dest_partition_name  | Name of the partition to import data to. (Optional) | 'partition'                                                  |
+| collection_parameter | Collection-specific information such as vector dimension, index file size, and similarity metric.       | dimension: 512<br/>index_file_size: 1024<br/>metric_type: 'HAMMING' |
 
 - Usage
 
@@ -113,7 +113,7 @@ $ milvusdm --yaml F2M.yaml
 
 ### HDF5 to Milvus
 
-Export one or more HDF5 file to Milvus in specified collection or partition.
+Export one or more HDF5 files to Milvus in a specified collection or partition.
 >We provide the HDF5 examples of [float vectors](examples/float_example.h5)(dim-100) and [binary vectors](examples/byte_example.h5)(dim-512) and their corresponding ids.
 
 - Download the yaml
@@ -169,14 +169,14 @@ H2M:
 | -------------------- | --------------------------------------------- | ------------------------------------------------------------ |
 | H2M                  | Task: Export data in HDF5  to Milvus.         |                                                              |
 | milvus_version       | Version of Milvus.                            | 0.10.5                                                       |
-| data_path            | List of HDF5 files.                           | - /Users/zilliz/float_1.h5<br />- /Users/zilliz/float_1.h5   |
-| data_dir             | Path of directory containing HDF5 files.      | /Users/zilliz/Desktop/HDF5_data                              |
-| dest_host            | Host of Milvus.                               | '127.0.0.1'                                                  |
-| dest_port            | Port of Milvus.                               | 19530                                                        |
-| mode                 | The mode for importing data to Milvus.        | 'append'                                                     |
-| dest_collection_name | Collection to be imported HDF5 data.          | 'test_float'                                                 |
-| dest_partition_name  | Partition to be imported HDF5 data.(optional) | 'partition_1'                                                |
-| collection_parameter | Parameters used to create the collection.     | dimension: 512<br/>index_file_size: 1024<br/>metric_type: 'HAMMING' |
+| data_path            | Path to the HDF5 file.                        | - /Users/zilliz/float_1.h5<br />- /Users/zilliz/float_1.h5   |
+| data_dir             | Directory of the HDF5 files.                  | /Users/zilliz/Desktop/HDF5_data                              |
+| dest_host            | Milvus server address.                        | '127.0.0.1'                                                  |
+| dest_port            | Milvus server port.                           | 19530                                                        |
+| mode                 | Mode of migration                             | 'append'                                                     |
+| dest_collection_name | Name of the collection to import data to.     | 'test_float'                                                 |
+| dest_partition_name  | Name of the partition to import data to.(optional) | 'partition_1'                                                |
+| collection_parameter | Collection-specific information such as vector dimension, index file size, and similarity metric.     | dimension: 512<br/>index_file_size: 1024<br/>metric_type: 'HAMMING' |
 
 - Usage
 
@@ -185,6 +185,8 @@ $ milvusdm --yaml H2M.yaml
 ```
 
 ### Milvus to Milvus
+
+> MilvusDM does not support migrating data from Milvus 2.0 standalone to Milvus 2.0 cluster.
 
 Copy a collection of source_milvus or multiple partitions of a collection into the corresponding collection or partition in dest_milvus. 
 
@@ -240,12 +242,12 @@ M2M:
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | M2M                | Task: Copy the data from Milvus to the same version of Milvus. |                                                              |
 | milvus_version     | The dest-milvus version.                                     | 0.10.5                                                       |
-| source_milvus_path | The local path of the Milvus container to be mounted.        | '/home/user/milvus'                                          |
-| mysql_parameter    | Use Mysql for metadata management related parameters, including mysql `host`, `user`, ` port`, `password` and `database` parameters. | host: '127.0.0.1'<br/>user: 'root'<br/>port: 3306<br/>password: '123456'<br/>database: 'milvus' |
-| source_collection  | The name of the collection or partition specified when exporting Milvus data. | test:<br/>      - 'partition_1'<br/>      - 'partition_2'    |
-| dest_host          | Destination Milvus port.                                     | '127.0.0.1'                                                  |
-| dest_port          | Destination Milvus port.                                     | 19530                                                        |
-| mode               | The mode for importing data to destination Milvus.           | 'skip'                                                       |
+| source_milvus_path | Working directory of the source Milvus.                      | '/home/user/milvus'                                          |
+| mysql_parameter    | MySQL settings for the source Milvus, including mysql `host`, `user`, ` port`, `password` and `database` parameters. | host: '127.0.0.1'<br/>user: 'root'<br/>port: 3306<br/>password: '123456'<br/>database: 'milvus' |
+| source_collection  | Names of the collection and its partitions in the source Milvus. | test:<br/>      - 'partition_1'<br/>      - 'partition_2'    |
+| dest_host          | Target Milvus server address.                                | '127.0.0.1'                                                  |
+| dest_port          | Target Milvus server port.                                   | 19530                                                        |
+| mode               | Mode of migration                                            | 'skip'                                                       |
 
 - Usage
 
@@ -307,10 +309,10 @@ M2H:
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | M2H                | Task: Export Milvus data to local HDF5 format files.         |                                                              |
 | milvus_version     | The source-milvus version.                                   | 0.10.5                                                       |
-| source_milvus_path | The local path of the Milvus container to be mounted.        | '/home/user/milvus'                                          |
-| mysql_parameter    | Use Mysql for metadata management related parameters, including mysql `host`, `user`, ` port`, `password` and `database` parameters. | host: '127.0.0.1'<br/>user: 'root'<br/>port: 3306<br/>password: '123456'<br/>database: 'milvus' |
-| source_collection  | The name of the collection or partition specified when exporting Milvus data. | test:<br/>      - 'partition_1'<br/>      - 'partition_2'    |
-| data_dir           | Local path of the hdf5 format file.                          | '/home/user/data'                                            |
+| source_milvus_path | Working directory of Milvus.                                 | '/home/user/milvus'                                          |
+| mysql_parameter    | MySQL settings for Milvus， including mysql `host`, `user`, ` port`, `password` and `database` parameters. | host: '127.0.0.1'<br/>user: 'root'<br/>port: 3306<br/>password: '123456'<br/>database: 'milvus' |
+| source_collection  | Names of the collection and its partitions in Milvus.        | test:<br/>      - 'partition_1'<br/>      - 'partition_2'    |
+| data_dir           | Directory to save HDF5 files.                                | '/home/user/data'                                            |
 
 - Usage
 
@@ -328,21 +330,21 @@ If you would like to contribute code to this project, you can find out more abou
 
 - pymilvusdm
   - core
-    - milvus_client.py, the function about Milvus
-    - read_data.py, read local data files in HDF5 format (if you need to read files in other formats, you can write the code here)
-    - read_faiss_data.py, read the Faiss data file
-    - read_milvus_data.py, read the Milvus data file
-    - read_milvus_meta.py, read Milvus' meta data
-    - data_to_milvus.py, create collections or partitions based on the parameters of the yaml file and import the vectors and ids into Milvus.
-    - save_data.py, save the data as a file in HDF5 format
-    - write_logs.py, write debug/info/error logs with an operation
-  - faiss_to_milvus.py, import of Faiss file data into Milvus
-  - hdf5_to_milvus.py, import file data in HDF5 format into Milvus
-  - milvus_to_milvus.py，copy data from Milvus to another Milvus
-  - milvus_to_hdf5.py, export Milvus data to HDF5 format files
-  - main.py, read yaml files and do related tasks.
-  - setting.py, relevant configuration parameters when executing the code
-- setup.py, package and upload pymilvusdm to Pypi
+    - **milvus_client.py**: Performs client operations in Milvus.
+    - **read_data.py**: Reads the HDF5 files on your local drive. (Add your code here to support reading data files in other formats.)
+    - **read_faiss_data.py**: Reads Faiss data files.
+    - **read_milvus_data.py**: Reads Milvus data files.
+    - **read_milvus_meta.py**: Reads Milvus metadata.
+    - **data_to_milvus.py**: Creates collections or partitions as specified in .yaml files and imports vectors and the corresponding IDs into Milvus.
+    - **save_data.py**: Saves data as HDF5 files.
+    - **write_logs.py**: Writes `debug`/`info`/`error` logs during runtime.
+  - **faiss_to_milvus.py**: Imports Faiss data into Milvus.
+  - **hdf5_to_milvus.py**: Imports HDF5 files into Milvus.
+  - **milvus_to_milvus.py**: Migrates data from a source Milvus to a target Milvus.
+  - **milvus_to_hdf5.py**: Saves Milvus data as HDF5 files.
+  - **main.py**: Executes tasks as specified by the received .yaml file.
+  - **setting.py**: Stores configurations for MilvusDM operation.
+- **setup.py**: Creates and uploads pymilvusdm file packages to PyPI (Python Package Index).
 
 ## Todo
 
