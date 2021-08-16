@@ -1,7 +1,7 @@
 # Milvus Data Migration Tool
 ## Overview
 
-Milvusdm (Milvus Data Migration) is a data migration tool for [Milvus](https://milvus.io/) that supports importing Faiss and HDF5 data files into Milvus, migrating data between Milvus, and it also supports batch backup of Milvus data to local files. Using milvusdm can help developers improve usage efficiency, reduce operation and maintenance costs.
+MilvusDM (Milvus Data Migration) is a data migration tool for [Milvus](https://milvus.io/) that supports importing Faiss and HDF5 data files into Milvus, migrating data between Milvus, and it also supports batch backup of Milvus data to local files. Using milvusdm can help developers improve usage efficiency, reduce operation and maintenance costs.
 
 
 ## Getting started
@@ -354,5 +354,5 @@ If you would like to contribute code to this project, you can find out more abou
   - [ ] Specify multiple collections or multiple partitions based on blocklist and allowlist.
   - [ ] When `source_collection='*'`, all Milvus data is exported.
   - [ ] Support for merging multiple collections or partitions in source_milvus into one collection in dest_milvus.
-- [ ] Milvud Dump
+- [ ] Milvus Dump
 - [ ] Milvus Restore
