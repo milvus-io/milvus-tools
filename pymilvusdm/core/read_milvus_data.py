@@ -48,7 +48,7 @@ class ReadMilvusDB:
             # vectors = np.delete(vectors, del_ids[2:], axis=0).tolist()
             vectors = np.delete(vectors, del_ids[2:], axis=0)
             ids = np.delete(ids, del_ids[2:], axis=0)
-            self.logger.debug("The Segment: {} has deleted data, total num: {}.".format(segment_id, len(delids[2:])))
+            self.logger.debug("The Segment: {} has deleted data, total num: {}.".format(segment_id, len(del_ids[2:])))
 
         return vectors, ids
 
