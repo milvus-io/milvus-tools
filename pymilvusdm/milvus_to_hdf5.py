@@ -24,7 +24,8 @@ class MilvusToHDF5():
         pbar = tqdm(partition_tags)
         for partition_tag in pbar:
             r_vectors, r_ids, r_rows = self.milvusdb.read_milvus_file(self.milvus_meta, collection_name, partition_tag)
-            if r_rows == len(r_vectors) == len(r_ids) == 0:
+            # If partition is empty, read_milvus_file will return (None, None, 0)
+            if r_rows == 0:
                 self.logger.info('The collection: {}/partition: {} has no data.'.format(collection_name, partition_tag))
             elif r_rows == len(r_vectors) == len(r_ids):
                 self.logger.debug(
