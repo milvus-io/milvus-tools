@@ -65,10 +65,10 @@ class ReadMilvusDB:
         #     total_vectors += vectors
         #     # total_ids += ids.tolist()
         #     total_ids += ids
-        total_rows = 0
+        total_rows, total_vectors, total_ids = 0, [], []
         for segment_id, rows in zip(segment_list, row_list):
             vectors, ids = self.get_segment_data(collection_path, segment_id, dim, rows, types)
-            if total_rows==0:
+            if total_rows == 0:
                 total_vectors = vectors
                 total_ids = ids
             else:
