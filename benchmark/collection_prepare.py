@@ -48,7 +48,7 @@ if __name__ == '__main__':
         tt = round(time.time() - t0, 3)
         logging.info(f"Insert {i} costs {tt}")
 
-    collection.flush()
+    # collection.flush()
     logging.info(f"collection entities: {collection.num_entities}")
 
     t0 = time.time()
